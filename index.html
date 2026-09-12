@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CRM Empresarial</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <!-- Pantalla de acceso -->
+  <section id="pantalla-login" class="login-wrap oculto">
+    <div class="login-card">
+      <div class="login-brand">
+        <span class="brand-mark">CRM</span>
+        <div>
+          <h1>CRM Empresarial</h1>
+          <p>Gestión de clientes, presupuestos, pedidos y productos</p>
+        </div>
+      </div>
+
+      <form id="form-login" class="login-form" autocomplete="on">
+        <h2 id="login-titulo">Iniciar sesión</h2>
+        <div id="login-error" class="alerta-error oculto"></div>
+
+        <label class="campo oculto" id="campo-nombre">
+          <span>Nombre</span>
+          <input type="text" id="login-nombre" placeholder="Tu nombre" />
+        </label>
+        <label class="campo">
+          <span>Correo electrónico</span>
+          <input type="email" id="login-email" placeholder="usuario@empresa.com" required />
+        </label>
+        <label class="campo">
+          <span>Contraseña</span>
+          <input type="password" id="login-password" placeholder="••••••••" required minlength="6" />
+        </label>
+
+        <button type="submit" class="btn btn-primario btn-bloque" id="login-submit">Entrar</button>
+        <p class="login-cambio">
+          <span id="login-cambio-texto">¿Primera vez?</span>
+          <a href="#" id="login-cambio-modo">Crear cuenta</a>
+        </p>
+      </form>
+    </div>
+  </section>
+
+  <!-- Aplicación -->
+  <div id="app" class="app oculto">
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <span class="brand-mark">CRM</span>
+        <span>Empresarial</span>
+      </div>
+      <nav class="sidebar-nav">
+        <button class="nav-item activo" data-seccion="clientes">Clientes</button>
+        <button class="nav-item" data-seccion="presupuestos">Presupuestos</button>
+        <button class="nav-item" data-seccion="pedidos">Pedidos</button>
+        <button class="nav-item" data-seccion="productos">Productos</button>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="usuario-info">
+          <strong id="usuario-nombre">Usuario</strong>
+          <span id="usuario-email"></span>
+        </div>
+        <button class="btn btn-fantasma btn-bloque" id="btn-logout">Cerrar sesión</button>
+      </div>
+    </aside>
+
+    <main class="contenido">
+      <!-- CLIENTES -->
+      <section id="seccion-clientes" class="seccion">
+        <header class="seccion-cabecera">
+          <div>
+            <h2>Clientes</h2>
+            <p class="subtitulo">Ficha de clientes. Haz clic en una fila para modificarla.</p>
+          </div>
+          <div class="acciones">
+            <input type="search" id="buscar-clientes" class="buscador" placeholder="Buscar por número, nombre, NIF, email…" />
+            <button class="btn btn-primario" id="btn-nuevo-cliente">+ Nuevo cliente</button>
+          </div>
+        </header>
+        <div class="tabla-wrap">
+          <table class="tabla">
+            <thead>
+              <tr>
+                <th class="col-num">Nº</th>
+                <th>Nombre</th>
+                <th>NIF/CIF</th>
+                <th>Teléfono</th>
+                <th>Email</th>
+                <th>Población</th>
+              </tr>
+            </thead>
+            <tbody id="tabla-clientes"></tbody>
+          </table>
+          <p class="sin-resultados oculto" id="vacio-clientes">No se encontraron resultados.</p>
+        </div>
+      </section>
+
+      <!-- PRESUPUESTOS -->
+      <section id="seccion-presupuestos" class="seccion oculto">
+        <header class="seccion-cabecera">
+          <div>
+            <h2>Presupuestos</h2>
+            <p class="subtitulo">Selecciona una fila para modificar, eliminar o convertir en pedido.</p>
+          </div>
+          <div class="acciones">
+            <input type="search" id="buscar-presupuestos" class="buscador" placeholder="Buscar por número, cliente, estado…" />
+            <button class="btn" id="btn-modificar-presupuesto">Modificar</button>
+            <button class="btn btn-peligro-suave" id="btn-eliminar-presupuesto">Eliminar</button>
+            <button class="btn btn-exito oculto" id="btn-convertir-presupuesto">Convertir en pedido</button>
+            <button class="btn btn-primario" id="btn-nuevo-presupuesto">+ Nuevo presupuesto</button>
+          </div>
+        </header>
+        <div class="tabla-wrap">
+          <table class="tabla tabla-seleccionable">
+            <thead>
+              <tr>
+                <th class="col-num">Nº</th>
+                <th>Fecha</th>
+                <th>Cliente</th>
+                <th class="col-der">Subtotal</th>
+                <th class="col-der">IVA 21%</th>
+                <th class="col-der">Total</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+            <tbody id="tabla-presupuestos"></tbody>
+          </table>
+          <p class="sin-resultados oculto" id="vacio-presupuestos">No se encontraron resultados.</p>
+        </div>
+      </section>
+
+      <!-- PEDIDOS -->
+      <section id="seccion-pedidos" class="seccion oculto">
+        <header class="seccion-cabecera">
+          <div>
+            <h2>Pedidos</h2>
+            <p class="subtitulo">Selecciona una fila para modificar o eliminar el pedido.</p>
+          </div>
+          <div class="acciones">
+            <input type="search" id="buscar-pedidos" class="buscador" placeholder="Buscar por número, cliente, estado…" />
+            <button class="btn" id="btn-modificar-pedido">Modificar</button>
+            <button class="btn btn-peligro-suave" id="btn-eliminar-pedido">Eliminar</button>
+            <button class="btn btn-primario" id="btn-nuevo-pedido">+ Nuevo pedido</button>
+          </div>
+        </header>
+        <div class="tabla-wrap">
+          <table class="tabla tabla-seleccionable">
+            <thead>
+              <tr>
+                <th class="col-num">Nº</th>
+                <th>Fecha</th>
+                <th>Cliente</th>
+                <th>Origen</th>
+                <th class="col-der">Subtotal</th>
+                <th class="col-der">IVA 21%</th>
+                <th class="col-der">Total</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+            <tbody id="tabla-pedidos"></tbody>
+          </table>
+          <p class="sin-resultados oculto" id="vacio-pedidos">No se encontraron resultados.</p>
+        </div>
+      </section>
+
+      <!-- PRODUCTOS -->
+      <section id="seccion-productos" class="seccion oculto">
+        <header class="seccion-cabecera">
+          <div>
+            <h2>Productos</h2>
+            <p class="subtitulo">Catálogo de productos y servicios. Haz clic en una fila para modificarla.</p>
+          </div>
+          <div class="acciones">
+            <input type="search" id="buscar-productos" class="buscador" placeholder="Buscar por código, nombre…" />
+            <button class="btn btn-primario" id="btn-nuevo-producto">+ Nuevo producto</button>
+          </div>
+        </header>
+        <div class="tabla-wrap">
+          <table class="tabla">
+            <thead>
+              <tr>
+                <th class="col-num">Código</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th class="col-der">Precio (sin IVA)</th>
+                <th class="col-der">Precio con IVA</th>
+              </tr>
+            </thead>
+            <tbody id="tabla-productos"></tbody>
+          </table>
+          <p class="sin-resultados oculto" id="vacio-productos">No se encontraron resultados.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Modal genérico -->
+  <div id="modal" class="modal-fondo oculto">
+    <div class="modal" role="dialog" aria-modal="true">
+      <header class="modal-cabecera">
+        <h3 id="modal-titulo"></h3>
+        <button class="btn-cerrar" id="modal-cerrar" aria-label="Cerrar">&times;</button>
+      </header>
+      <div class="modal-cuerpo" id="modal-cuerpo"></div>
+      <footer class="modal-pie" id="modal-pie"></footer>
+    </div>
+  </div>
+
+  <!-- Diálogo de confirmación -->
+  <div id="confirmar" class="modal-fondo oculto">
+    <div class="modal modal-pequeno" role="alertdialog" aria-modal="true">
+      <header class="modal-cabecera"><h3 id="confirmar-titulo">Confirmar</h3></header>
+      <div class="modal-cuerpo"><p id="confirmar-mensaje"></p></div>
+      <footer class="modal-pie">
+        <button class="btn" id="confirmar-cancelar">Cancelar</button>
+        <button class="btn btn-peligro" id="confirmar-aceptar">Eliminar</button>
+      </footer>
+    </div>
+  </div>
+
+  <div id="toasts" class="toasts"></div>
+
+  <!-- Supabase JS desde CDN (SDK oficial v2) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase.js"></script>
+
+  <script src="js/almacen.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/clientes.js"></script>
+  <script src="js/productos.js"></script>
+  <script src="js/documentos.js"></script>
+  <script src="js/presupuestos.js"></script>
+  <script src="js/pedidos.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
